@@ -1,9 +1,13 @@
 import { useParams, useNavigate } from "react-router-dom";
 import movies from "../data/movies";
+import { useContext } from "react";
+import { BookingContext } from "../context/BookingContext";
 
 function MovieDetails() {
   const { movieId } = useParams();
   const navigate = useNavigate();
+
+  const { setBooking } = useContext(BookingContext);
 
   const movie = movies.find((m) => m.id === Number(movieId));
 
@@ -80,7 +84,14 @@ function MovieDetails() {
               </button>
 
               <button
-                onClick={() => navigate(`/date/${movie.id}`)}
+                onClick={() => {
+  setBooking((prev) => ({
+    ...prev,
+    movie,
+  }));
+
+  navigate(`/date/${movie.id}`);
+}}
                 className="bg-yellow-500 hover:bg-yellow-400 text-black px-6 py-3 rounded-xl font-bold"
               >
                 Continue Booking
