@@ -1,10 +1,3 @@
-import inception from "../assets/images/inception.jpg";
-import darkKnight from "../assets/images/the dark knight.jpg";
-import interstellar from "../assets/images/interstellar.jpg";
-import endgame from "../assets/images/avenger endgame.jpg";
-import shawshank from "../assets/images/the shawshank redemption.jpg";
-import pulpFiction from "../assets/images/pulp fiction.jpg";
-
 const movies = [
   {
     id: 1,
@@ -16,11 +9,11 @@ const movies = [
     director: "Christopher Nolan",
     cast: "Leonardo DiCaprio, Joseph Gordon-Levitt",
     description:
-      "A skilled thief enters people's dreams to steal secrets but is offered a chance to erase his criminal history by planting an idea into someone's mind.",
+      "A skilled thief enters people's dreams to steal secrets.",
     trailer: "https://www.youtube.com/watch?v=YoHD9XEInc0",
     price: 350,
     color: "#6366f1",
-    poster: inception,
+    poster: "/images/inception.jpg"
   },
   {
     id: 2,
@@ -32,11 +25,11 @@ const movies = [
     director: "Christopher Nolan",
     cast: "Christian Bale, Heath Ledger",
     description:
-      "Batman faces his greatest enemy, the Joker, who seeks to create chaos in Gotham City.",
+      "Batman faces the Joker in Gotham City.",
     trailer: "https://www.youtube.com/watch?v=EXeTwQWrcwY",
     price: 400,
     color: "#f59e0b",
-    poster: darkKnight,
+    poster: "/images/the-dark-knight.jpg"
   },
   {
     id: 3,
@@ -48,11 +41,11 @@ const movies = [
     director: "Christopher Nolan",
     cast: "Matthew McConaughey, Anne Hathaway",
     description:
-      "A team of astronauts travels through a wormhole searching for a new home for humanity.",
+      "Astronauts search for a new home for humanity.",
     trailer: "https://www.youtube.com/watch?v=zSWdZVtXT7E",
     price: 350,
     color: "#06b6d4",
-    poster: interstellar,
+    poster: "/images/interstellar.jpg"
   },
   {
     id: 4,
@@ -64,11 +57,11 @@ const movies = [
     director: "Anthony & Joe Russo",
     cast: "Robert Downey Jr., Chris Evans",
     description:
-      "The Avengers assemble one final time to undo the destruction caused by Thanos.",
+      "The Avengers assemble for the final battle against Thanos.",
     trailer: "https://www.youtube.com/watch?v=TcMBFSGVi1c",
     price: 450,
     color: "#ef4444",
-    poster: endgame,
+    poster: "/images/avenger-endgame.jpg"
   },
   {
     id: 5,
@@ -80,11 +73,11 @@ const movies = [
     director: "Frank Darabont",
     cast: "Tim Robbins, Morgan Freeman",
     description:
-      "Two imprisoned men form a lifelong friendship while hoping for freedom.",
+      "Two imprisoned men find hope and friendship.",
     trailer: "https://www.youtube.com/watch?v=NmzuHjWmXOc",
     price: 300,
     color: "#10b981",
-    poster: shawshank,
+    poster: "/images/shawshank-redemption.jpg"
   },
   {
     id: 6,
@@ -96,12 +89,12 @@ const movies = [
     director: "Quentin Tarantino",
     cast: "John Travolta, Samuel L. Jackson",
     description:
-      "The lives of two hitmen, a boxer, and others intertwine in a series of unforgettable stories.",
+      "Intertwined crime stories of hitmen and criminals.",
     trailer: "https://www.youtube.com/watch?v=s7EdQ4FqbhY",
     price: 300,
     color: "#ec4899",
-    poster: pulpFiction,
-  },
+    poster: "/images/pulp-fiction.jpg"
+  }
 ];
 
 export default movies;

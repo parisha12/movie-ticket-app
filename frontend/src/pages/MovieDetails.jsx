@@ -1,106 +1,99 @@
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import movies from "../data/movies";
-import { useContext } from "react";
-import { BookingContext } from "../context/BookingContext";
+import { motion } from "framer-motion";
 
 function MovieDetails() {
   const { movieId } = useParams();
   const navigate = useNavigate();
 
-  const { setBooking } = useContext(BookingContext);
+  const [movie, setMovie] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const movie = movies.find((m) => m.id === Number(movieId));
+  useEffect(() => {
+    fetch(`http://localhost:5000/api/movies/${movieId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setMovie(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, [movieId]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-white bg-[#0a0a0f]">
+        Loading...
+      </div>
+    );
+  }
 
   if (!movie) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0f] text-white">
-        <h1 className="text-3xl font-bold">Movie Not Found</h1>
+      <div className="min-h-screen flex items-center justify-center text-white bg-[#0a0a0f]">
+        Movie not found
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white pt-24 px-6">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-5xl mx-auto">
 
-        <div className="grid md:grid-cols-2 gap-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
 
-          {/* Movie Poster */}
-          <div>
-            <img
-              src={movie.poster}
-              alt={movie.title}
-              className="w-full rounded-2xl shadow-2xl"
-            />
+          {/* Movie Title */}
+          <h1 className="text-5xl font-black mb-4">
+            {movie.title}
+          </h1>
+
+          <p className="text-gray-400 mb-6">
+            {movie.genre} • {movie.duration} • ⭐ {movie.rating}
+          </p>
+
+          {/* Description */}
+          <p className="text-gray-300 mb-10 leading-relaxed">
+            {movie.description ||
+              "No description available."}
+          </p>
+
+          {/* Price */}
+          <div className="text-2xl font-bold mb-8">
+            Ticket Price:{" "}
+            <span className="text-yellow-400">
+              Rs. {movie.price}
+            </span>
           </div>
 
-          {/* Movie Details */}
-          <div>
-            <h1 className="text-5xl font-bold mb-4">
-              {movie.title}
-            </h1>
+          {/* Buttons */}
+          <div className="flex gap-4">
 
-            <div className="flex items-center gap-4 mb-6">
-              <span className="bg-yellow-500 text-black px-4 py-1 rounded-full font-bold">
-                ⭐ {movie.rating}
-              </span>
+            <button
+              onClick={() =>
+                navigate(`/date/${movie.id}`)
+              }
+              className="px-8 py-4 bg-yellow-500 text-black font-bold rounded-xl hover:bg-yellow-400 transition"
+            >
+              Book Tickets
+            </button>
 
-              <span className="text-gray-300">
-                {movie.genre}
-              </span>
-            </div>
+            <button
+              onClick={() =>
+                window.open(movie.trailer, "_blank")
+              }
+              className="px-8 py-4 bg-gray-800 rounded-xl hover:bg-gray-700 transition"
+            >
+              Watch Trailer
+            </button>
 
-            <p className="mb-3">
-              <span className="font-bold">Duration:</span> {movie.duration}
-            </p>
-
-            <p className="mb-3">
-              <span className="font-bold">Language:</span> {movie.language}
-            </p>
-
-            <p className="mb-3">
-              <span className="font-bold">Director:</span> {movie.director}
-            </p>
-
-            <p className="mb-6">
-              <span className="font-bold">Cast:</span> {movie.cast}
-            </p>
-
-            <h2 className="text-2xl font-bold mb-3">
-              Story
-            </h2>
-
-            <p className="text-gray-400 leading-8 mb-8">
-              {movie.description}
-            </p>
-
-            <div className="flex gap-4">
-
-              <button
-                onClick={() => window.open(movie.trailer, "_blank")}
-                className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-xl font-semibold"
-              >
-                ▶ Watch Trailer
-              </button>
-
-              <button
-                onClick={() => {
-  setBooking((prev) => ({
-    ...prev,
-    movie,
-  }));
-
-  navigate(`/date/${movie.id}`);
-}}
-                className="bg-yellow-500 hover:bg-yellow-400 text-black px-6 py-3 rounded-xl font-bold"
-              >
-                Continue Booking
-              </button>
-
-            </div>
           </div>
 
-        </div>
+        </motion.div>
 
       </div>
     </div>

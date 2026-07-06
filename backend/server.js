@@ -4,50 +4,84 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
-
-const DB_FILE = path.join(__dirname, 'bookings.json');
-
-if (!fs.existsSync(DB_FILE)) {
-  fs.writeFileSync(DB_FILE, JSON.stringify([]));
-}
-
-function getBookings() {
-  return JSON.parse(fs.readFileSync(DB_FILE));
-}
-
-function saveBookings(bookings) {
-  fs.writeFileSync(DB_FILE, JSON.stringify(bookings, null, 2));
-}
-
-app.get('/api/bookings', (req, res) => {
-  res.json(getBookings());
+const movies = [
+  {
+    id: 1,
+    title: 'Inception',
+    genre: 'Sci-Fi / Thriller',
+    duration: '2h 28min',
+    rating: '8.8',
+    price: 350,
+    color: '#6366f1',
+    poster: '/images/inception.jpg',
+  },
+  {
+    id: 2,
+    title: 'The Dark Knight',
+    genre: 'Action / Crime',
+    duration: '2h 32min',
+    rating: '9.0',
+    price: 400,
+    color: '#f59e0b',
+    poster: '/images/the dark knight.jpg',
+  },
+  {
+    id: 3,
+    title: 'Interstellar',
+    genre: 'Sci-Fi / Drama',
+    duration: '2h 49min',
+    rating: '8.6',
+    price: 350,
+    color: '#06b6d4',
+    poster: '/images/interstellar.jpg',
+  },
+  {
+    id: 4,
+    title: 'Avengers: Endgame',
+    genre: 'Action / Adventure',
+    duration: '3h 1min',
+    rating: '8.4',
+    price: 450,
+    color: '#ef4444',
+    poster: '/images/avenger endgame.jpg',
+  },
+  {
+    id: 5,
+    title: 'The Shawshank Redemption',
+    genre: 'Drama',
+    duration: '2h 22min',
+    rating: '9.3',
+    price: 300,
+    color: '#10b981',
+    poster: '/images/the shawshank redemption.jpg',
+  },
+  {
+    id: 6,
+    title: 'Pulp Fiction',
+    genre: 'Crime / Drama',
+    duration: '2h 34min',
+    rating: '8.9',
+    price: 300,
+    color: '#ec4899',
+    poster: '/images/pulp fiction.jpg',
+  },
+];
+app.get('/api/movies', (req, res) => {
+  res.json(movies);
 });
 
-app.post('/api/bookings', (req, res) => {
-  const { movie, seats, total } = req.body;
-  const bookings = getBookings();
-  const newBooking = {
-    id: Date.now(),
-    movie,
-    seats,
-    total,
-    createdAt: new Date(),
-  };
-  bookings.push(newBooking);
-  saveBookings(bookings);
-  res.status(201).json(newBooking);
-});
+app.get('/api/movies/:id', (req, res) => {
+  const movie = movies.find((m) => m.id === parseInt(req.params.id));
 
-app.get('/api/bookings/booked-seats/:movie', (req, res) => {
-  const bookings = getBookings();
-  const seats = bookings
-    .filter((b) => b.movie === req.params.movie)
-    .flatMap((b) => b.seats);
-  res.json(seats);
-});
+  if (!movie) {
+    return res.status(404).json({ message: 'Movie not found' });
+  }
 
+  res.json(movie);
+});
 app.listen(5000, () => {
   console.log('Server running on port 5000');
 });

@@ -10,10 +10,7 @@ function MovieCard({ movie, index }) {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{
-        scale: 1.03,
-        y: -8,
-      }}
+      whileHover={{ scale: 1.03, y: -8 }}
       onClick={() => navigate(`/movie/${movie.id}`)}
     >
       <div className="overflow-hidden">
@@ -29,14 +26,10 @@ function MovieCard({ movie, index }) {
           {movie.title}
         </h2>
 
-        <p className="text-gray-400 mt-2">
-          {movie.genre}
-        </p>
+        <p className="text-gray-400 mt-2">{movie.genre}</p>
 
         <div className="flex justify-between mt-4">
-          <span className="text-gray-300">
-            {movie.duration}
-          </span>
+          <span className="text-gray-300">{movie.duration}</span>
 
           <span className="bg-yellow-500 text-black px-3 py-1 rounded-full font-semibold">
             ⭐ {movie.rating}
@@ -48,7 +41,13 @@ function MovieCard({ movie, index }) {
             Rs. {movie.price}
           </h3>
 
-          <button className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold px-5 py-2 rounded-full transition">
+          <button
+            className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold px-5 py-2 rounded-full transition"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/movie/${movie.id}`);
+            }}
+          >
             Book Now
           </button>
         </div>
